@@ -60,7 +60,7 @@ func fetch(url string) ([]byte, int) {
 }
 
 // Get the account information of the current user (https://meocloud.pt/documentation#accountinfo)
-func account_info() (map[string]interface{}, int) {
+func Account_info() (map[string]interface{}, int) {
 	return fetch_json("https://api.meocloud.pt/1/Account/Info")
 }
 
@@ -72,7 +72,7 @@ func dump_json(bodymap map[string]interface{}) {
 }
 
 // get the metadata of a file or folder, used of directory listings (https://meocloud.pt/documentation#metadata)
-func get_metadata(path string) (map[string]interface{}, int) {
+func Get_metadata(path string) (map[string]interface{}, int) {
 	bodymap, status := fetch_json(fmt.Sprintf("https://api.meocloud.pt/1/Metadata/meocloud%s", path))
 
 	/* 	for key,value := range bodymap["contents"].([]interface{})  {
@@ -83,7 +83,7 @@ func get_metadata(path string) (map[string]interface{}, int) {
 }
 
 // Get the contents of a file given its path in the cloud (https://meocloud.pt/documentation#files)
-func get_file(filepath string) ([]byte, int) {
+func Get_file(filepath string) ([]byte, int) {
 	meo := get_meo_client()
 	httpResponse, _ := meo.Get(fmt.Sprintf("https://api-content.meocloud.pt/1/Files/meocloud/%s", filepath))
 	bodybytes, _ := io.ReadAll(httpResponse.Body)
@@ -92,7 +92,7 @@ func get_file(filepath string) ([]byte, int) {
 
 // Send byte array to the cloud (https://meocloud.pt/documentation#files) giving it a name specified in newfilepath
 // returns the status code
-func send(newfilepath string, data []byte) int {
+func Send(newfilepath string, data []byte) int {
 	meo := get_meo_client()
 	putReq, _ := http.NewRequest(
 		"PUT",
@@ -103,14 +103,14 @@ func send(newfilepath string, data []byte) int {
 }
 
 // send a file to the cloud (https://meocloud.pt/documentation#files)
-func send_file(filepath string) int {
+func Send_file(filepath string) int {
 	contentBytes, _ := os.ReadFile(filepath)
-	return send(filepath, contentBytes)
+	return Send(filepath, contentBytes)
 }
 
 // delete a file in the cloud (https://meocloud.pt/documentation#delete)
 // returns the status code (200 on success, 404 if the file does not exist and 406 if many files are deleted)
-func delete_file(filepath string) int {
+func Delete_file(filepath string) int {
 	meo := get_meo_client()
 	httpResponse, _ := meo.PostForm("https://api.meocloud.pt/1/Fileops/Delete",
 		url.Values{
@@ -122,7 +122,7 @@ func delete_file(filepath string) int {
 
 // creates a directory in the cloud (https://meocloud.pt/documentation#createfolder)
 // returns the status code (200 if successful, 403 if the directory already exists)
-func create_dir(folderpath string) int {
+func Create_dir(folderpath string) int {
 	meo := get_meo_client()
 	httpResponse, _ := meo.PostForm("https://api.meocloud.pt/1/Fileops/CreateFolder",
 		url.Values{
