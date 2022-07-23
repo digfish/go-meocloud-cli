@@ -12,6 +12,22 @@ OAUTH_TOKEN_SECRET=
 ```
 I intend to write new functions to get the credentials later.
 
+### Source example
+
+```go
+package main
+
+import (
+	"github.com/digfish/go-meocloud-cli"
+	"fmt"
+)
+
+func main() {
+	info,status := meocloudcli.Account_info()
+	fmt.Println(status,info)
+}
+```
+
 ### What is implemented
 
 |   Method          |    API                   |
